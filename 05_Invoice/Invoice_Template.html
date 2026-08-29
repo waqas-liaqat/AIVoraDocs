@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice #INV-2025-001 | Aivora Automations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --accent: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --badge-due-bg: #fef3c7;
+      --badge-due-text: #b45309;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      font-size: 14px;
+      padding: 30px 20px 60px 20px;
+    }
+
+    .top-actions {
+      max-width: 860px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #0f172a;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .toolbar-left { display: flex; align-items: center; gap: 12px; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: #1e293b; border: 1px solid #334155;
+      border-radius: 7px; font-size: 13px; font-weight: 500; color: #cbd5e1;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-back:hover { background: #334155; color: #ffffff; }
+
+    .edit-status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1e3a8a; color: #93c5fd; padding: 5px 12px;
+      border-radius: 20px; font-size: 12px; font-weight: 600;
+    }
+
+    .toolbar-right { display: flex; align-items: center; gap: 10px; }
+    .btn-tool {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s;
+    }
+    .btn-reset { background: #334155; color: #e2e8f0; }
+    .btn-reset:hover { background: #475569; }
+    .btn-save { background: #0284c7; color: white; }
+    .btn-save:hover { background: #0369a1; }
+    .btn-print {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white; box-shadow: 0 2px 8px rgba(67, 97, 238, 0.35);
+    }
+    .btn-print:hover { transform: translateY(-1px); }
+
+    .edit-banner {
+      max-width: 860px; margin: 0 auto 20px auto;
+      background: #fefce8; border: 1px solid #fef08a; color: #854d0e;
+      padding: 10px 16px; border-radius: 8px; font-size: 13px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .doc-container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+      padding: 50px;
+    }
+
+    /* Editable Fields */
+    [contenteditable="true"] { outline: none; transition: all 0.15s ease-in-out; border-radius: 3px; }
+    [contenteditable="true"]:hover { background: rgba(67, 97, 238, 0.05); box-shadow: 0 0 0 1px rgba(67, 97, 238, 0.25); }
+    [contenteditable="true"]:focus { background: #ffffff; box-shadow: 0 0 0 2px var(--primary); }
+
+    .placeholder-tag {
+      background: #fef3c7; color: #92400e; padding: 1px 6px;
+      border-radius: 4px; font-weight: 600; border-bottom: 1.5px dashed #d97706;
+    }
+
+    .inv-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 2px solid var(--border-color); padding-bottom: 28px; margin-bottom: 32px; gap: 20px;
+    }
+
+    .brand-area img { max-height: 46px; width: auto; margin-bottom: 8px; }
+    .brand-area .brand-sub { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+    .brand-area .brand-sub a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+    .inv-meta { text-align: right; }
+    .status-badge {
+      display: inline-block; padding: 5px 14px; background: var(--badge-due-bg);
+      color: var(--badge-due-text); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; border-radius: 20px; margin-bottom: 8px;
+    }
+
+    .inv-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+    .inv-num { font-size: 14px; font-weight: 600; color: var(--primary); font-family: monospace; }
+
+    .details-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px;
+      margin-bottom: 32px; background: #f8fafc; border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 20px 24px;
+    }
+
+    .box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--primary); margin-bottom: 8px; }
+    .client-name { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .client-sub { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .meta-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+    .meta-row span { color: var(--text-muted); }
+    .meta-row strong { color: var(--text-main); }
+
+    .items-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    .items-table th {
+      background: #f1f5f9; text-align: left; padding: 12px 14px;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 700; color: var(--text-main); border-bottom: 2px solid var(--border-color);
+    }
+    .items-table td { padding: 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; vertical-align: top; }
+    .items-table td.qty, .items-table th.qty { text-align: center; width: 60px; }
+    .items-table td.rate, .items-table th.rate { text-align: right; width: 120px; }
+    .items-table td.amount, .items-table th.amount { text-align: right; width: 130px; font-weight: 600; }
+    .item-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    .totals-wrap { display: flex; justify-content: flex-end; margin-bottom: 36px; }
+    .totals-box { width: 320px; background: #fafafa; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px 20px; }
+    .t-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; color: var(--text-muted); }
+    .t-row.grand-total { border-top: 2px solid var(--border-color); padding-top: 10px; margin-top: 10px; font-size: 16px; font-weight: 800; color: var(--primary); }
+
+    .pay-methods { background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .pay-methods h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-main); margin-bottom: 14px; }
+    .methods-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 13px; }
+    .method-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }
+    .method-card strong { color: var(--primary); display: block; margin-bottom: 6px; font-size: 13px; }
+    .method-card p { margin-bottom: 4px; color: #475569; font-size: 12.5px; }
+
+    .inv-footer-notes { font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 18px; text-align: center; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #10b981; color: white; padding: 12px 20px;
+      border-radius: 8px; font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; z-index: 1000;
+    }
+
+    @media print {
+      body { background: white; padding: 0; font-size: 11pt; }
+      .top-actions, .edit-banner, .toast { display: none !important; }
+      .doc-container { border: none; box-shadow: none; padding: 0; width: 100%; }
+      .placeholder-tag { background: none !important; border: none !important; padding: 0 !important; color: inherit !important; font-weight: inherit !important; }
+      .totals-box, .pay-methods { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <div class="top-actions">
+    <div class="toolbar-left">
+      <a href="../index.html" class="btn-back">&larr; Document Portal</a>
+      <span class="edit-status-pill">✏️ Live Edit Enabled</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn-tool btn-reset" onclick="resetDocument()">🔄 Reset</button>
+      <button class="btn-tool btn-save" onclick="saveDocument()">💾 Save Draft</button>
+      <button class="btn-tool btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="edit-banner">
+    <span>💡 <strong>Interactive Invoice:</strong> Click on invoice number, client details, line items, prices, or banking info to update instantly before printing.</span>
+  </div>
+
+  <div class="doc-container" id="editableDoc" contenteditable="true">
+
+    <!-- Invoice Header -->
+    <div class="inv-header">
+      <div class="brand-area" contenteditable="false">
+        <img src="../logo.png" alt="Aivora Automations Logo" onerror="this.src='https://aivoraai.online/assets/logo.png'">
+        <div class="brand-sub">
+          <strong>Aivora Automations</strong><br>
+          Website: <a href="https://aivoraai.online/" target="_blank">aivoraai.online</a><br>
+          Email: info@aivoraautomations.com
+        </div>
+      </div>
+      <div class="inv-meta">
+        <span class="status-badge">Payment Pending</span>
+        <h1 class="inv-title">INVOICE</h1>
+        <div class="inv-num">#INV-2025-001</div>
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+      <div>
+        <div class="box-label">Billed To:</div>
+        <div class="client-name"><span class="placeholder-tag">[Client Company Name]</span></div>
+        <div class="client-sub">
+          Attn: <span class="placeholder-tag">[Client Contact Name]</span><br>
+          Email: <span class="placeholder-tag">[billing@clientcompany.com]</span><br>
+          Address: <span class="placeholder-tag">[City, State, Country]</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="box-label">Invoice Details:</div>
+        <div class="meta-row">
+          <span>Invoice Date:</span>
+          <strong><span class="placeholder-tag">[DD/MM/YYYY]</span></strong>
+        </div>
+        <div class="meta-row">
+          <span>Payment Due:</span>
+          <strong><span class="placeholder-tag">[DD/MM/YYYY]</span> (Net 7)</strong>
+        </div>
+        <div class="meta-row">
+          <span>Project Ref:</span>
+          <strong><span class="placeholder-tag">AIV-SOW-2025-001</span></strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line Items Table -->
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Description &amp; Deliverables</th>
+          <th class="qty">Qty</th>
+          <th class="rate">Rate</th>
+          <th class="amount">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Milestone 1: 50% Upfront Deposit</strong>
+            <div class="item-desc">Autonomous AI WhatsApp &amp; Web Chatbot Architecture with CRM Integration (HubSpot / GoHighLevel) per SOW `AIV-SOW-2025-001`.</div>
+          </td>
+          <td class="qty">1</td>
+          <td class="rate">$2,250.00</td>
+          <td class="amount">$2,250.00</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Workflow Pipelines &amp; Calendar Booking Engine</strong>
+            <div class="item-desc">n8n backend webhooks, lead qualification filters, calendar slot reservation, and Slack notification routing.</div>
+          </td>
+          <td class="qty">1</td>
+          <td class="rate">Included</td>
+          <td class="amount">$0.00</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>30-Day Bug-Fix Warranty &amp; SOP Walkthrough</strong>
+            <div class="item-desc">Full Loom video documentation, credential handover, and 30-day post-launch optimization support.</div>
+          </td>
+          <td class="qty">1</td>
+          <td class="rate">Included</td>
+          <td class="amount">$0.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Totals -->
+    <div class="totals-wrap">
+      <div class="totals-box">
+        <div class="t-row">
+          <span>Subtotal:</span>
+          <strong>$2,250.00 USD</strong>
+        </div>
+        <div class="t-row">
+          <span>Tax / VAT (0% Export):</span>
+          <strong>$0.00 USD</strong>
+        </div>
+        <div class="t-row grand-total">
+          <span>Total Due:</span>
+          <span>$2,250.00 USD</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div class="pay-methods">
+      <h4>International Payment Instructions</h4>
+      <div class="methods-grid">
+        <div class="method-card">
+          <strong>1. Direct International Bank Wire (SWIFT / IBAN)</strong>
+          <p><strong>Beneficiary:</strong> <span class="placeholder-tag">[Account Name / Aivora Automations]</span></p>
+          <p><strong>Bank:</strong> [Standard Chartered / Meezan Bank / HBL]</p>
+          <p><strong>IBAN:</strong> <span class="placeholder-tag">PK[XX] [BANK] [0000 0000 0000 0000]</span></p>
+          <p><strong>SWIFT Code:</strong> <span class="placeholder-tag">[SWIFT CODE]</span></p>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">*Please select 'OUR' wire fee option so net amount settles in full.</p>
+        </div>
+
+        <div class="method-card">
+          <strong>2. Instant Card, Wise, Payoneer &amp; Digital</strong>
+          <p><strong>Stripe Card Link:</strong> <span class="placeholder-tag">[https://buy.stripe.com/example]</span></p>
+          <p><strong>Wise Business Tag:</strong> billing@aivoraautomations.com</p>
+          <p><strong>Payoneer / Elevate:</strong> payments@aivoraautomations.com</p>
+          <p><strong>Crypto USDT (TRC20):</strong> <span class="placeholder-tag">[USDT TRC20 Address]</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Tax Note -->
+    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted);">
+      <strong>Tax &amp; Export Compliance:</strong> Zero-Rated Cross-Border IT Export &amp; Software Consulting Services (0% VAT / Reverse Charge). Reference Invoice <strong>#INV-2025-001</strong> with remittance.
+    </div>
+
+    <!-- Footer Notes -->
+    <div class="inv-footer-notes">
+      Thank you for partnering with <strong>Aivora Automations</strong> &bull; https://aivoraai.online/ &bull; info@aivoraautomations.com
+    </div>
+
+  </div>
+
+  <div class="toast" id="toastMsg">✓ Draft saved in browser!</div>
+
+  <script>
+    const DOC_KEY = 'aivora_doc_invoice';
+    const docEl = document.getElementById('editableDoc');
+    const toast = document.getElementById('toastMsg');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem(DOC_KEY);
+      if (saved) { docEl.innerHTML = saved; }
+    });
+
+    function saveDocument() {
+      localStorage.setItem(DOC_KEY, docEl.innerHTML);
+      showToast('✓ Invoice saved locally in your browser!');
+    }
+
+    function resetDocument() {
+      if (confirm('Are you sure you want to reset all edits back to the default template?')) {
+        localStorage.removeItem(DOC_KEY);
+        location.reload();
+      }
+    }
+
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  </script>
+
+</body>
+</html>

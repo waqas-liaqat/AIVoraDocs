@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aivora Automations | Client Documents &amp; Live Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --accent: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --bg-page: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1a243d;
+      --border-color: #1e293b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: #f1f5f9;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* Hero Header */
+    .hero-header {
+      background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b0f19 70%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 48px 20px 36px 20px;
+      text-align: center;
+    }
+
+    .brand-logo-wrap { margin-bottom: 14px; }
+    .brand-logo-wrap img { max-height: 52px; width: auto; object-fit: contain; }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #60a5fa, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 650px;
+      margin: 0 auto 20px auto;
+    }
+
+    .feature-tags-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .feat-tag {
+      background: rgba(67, 97, 238, 0.12);
+      border: 1px solid rgba(67, 97, 238, 0.35);
+      color: #93c5fd;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Search & Action Bar */
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 32px 0 28px 0;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .search-box {
+      position: relative;
+      width: 340px;
+      max-width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #131b2e;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px 10px 38px;
+      color: #f1f5f9;
+      font-size: 13.5px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .search-input:focus { border-color: var(--primary); }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .quick-guide-box {
+      background: #1e293b;
+      border-left: 3px solid #60a5fa;
+      padding: 10px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    /* Category Section */
+    .category-section { margin-bottom: 40px; }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .cat-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .cat-badge.sales { background: #1e3a8a; color: #93c5fd; }
+    .cat-badge.finance { background: #064e3b; color: #6ee7b7; }
+
+    .cat-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .cat-urdu { font-size: 13px; color: #94a3b8; font-weight: normal; }
+
+    /* Docs Grid */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .doc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s;
+    }
+
+    .doc-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(67, 97, 238, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-icon-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .doc-icon {
+      font-size: 22px;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .doc-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .doc-card-urdu {
+      font-size: 12.5px;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .doc-card-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-edit-html {
+      flex: 1.2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .btn-edit-html:hover { opacity: 0.92; }
+
+    .btn-view-md {
+      flex: 0.8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      background: #1e293b;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 500;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      transition: all 0.2s;
+    }
+    .btn-view-md:hover { background: #334155; color: white; }
+
+    /* Footer */
+    .portal-footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .portal-footer a { color: #60a5fa; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Header -->
+  <header class="hero-header">
+    <div class="brand-logo-wrap">
+      <img src="logo.png" alt="Aivora Automations Logo" onerror="this.src='https://aivoraai.online/assets/logo.png'">
+    </div>
+    <h1 class="hero-title">Aivora AI <span class="gradient-text">Client Documents &amp; PDF Studio</span></h1>
+    <p class="hero-sub">Essential, client-facing legal, sales, and billing documents for Aivora Automations. Open any doc, update details live, and print instantly to PDF.</p>
+    
+    <div class="feature-tags-row">
+      <span class="feat-tag">✏️ Live In-Browser Editing</span>
+      <span class="feat-tag">🖨️ 1-Click Save as PDF</span>
+      <span class="feat-tag">🌍 Cross-Border Client Protection</span>
+      <span class="feat-tag">💳 Global Multi-Currency Payments</span>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Search & Help Bar -->
+    <div class="stats-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="docSearch" class="search-input" placeholder="Search document by name or use case...">
+      </div>
+      <div class="quick-guide-box">
+        ⚡ <strong>How it works:</strong> Click <strong>"Open &amp; Edit Live"</strong> &rarr; Type your client's name &amp; price directly &rarr; Click <strong>"Print / Save as PDF"</strong>.
+      </div>
+    </div>
+
+    <!-- Category 1: Client Legal & Sales -->
+    <section class="category-section">
+      <div class="category-header">
+        <span class="cat-badge sales">Section 1</span>
+        <h2 class="cat-title">Client Legal, Sales &amp; Scope</h2>
+        <span class="cat-urdu">(Client ke saath deal finalize karne ke essential documents)</span>
+      </div>
+
+      <div class="docs-grid">
+
+        <!-- Doc 1 -->
+        <article class="doc-card" data-title="contract agreement master service msa legal terms warranty">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">📄</span>
+              <div class="doc-card-title">Client Contract / Agreement (MSA)</div>
+            </div>
+            <div class="doc-card-urdu">Kya deliver karoge, timeline, payment terms, 30-day warranty</div>
+            <p class="doc-card-desc">Master Services Agreement with international arbitration, IP ownership, 30-day bug-fix warranty, and milestone terms.</p>
+          </div>
+          <div class="card-actions">
+            <a href="01_Client_Contract_Service_Agreement/Client_Contract_Service_Agreement.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="01_Client_Contract_Service_Agreement/Client_Contract_Service_Agreement.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+        <!-- Doc 2 -->
+        <article class="doc-card" data-title="proposal pitch sales deal pricing tiers quote">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">🚀</span>
+              <div class="doc-card-title">Project Proposal Template</div>
+            </div>
+            <div class="doc-card-urdu">Client ko bhejte hain kaam milne se pehle (Sales Pitch)</div>
+            <p class="doc-card-desc">High-converting sales proposal covering problem analysis, AI architecture, investment tiers ($1.5k–$10k), and social proof.</p>
+          </div>
+          <div class="card-actions">
+            <a href="02_Project_Proposal/Project_Proposal_Template.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="02_Project_Proposal/Project_Proposal_Template.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+        <!-- Doc 3 -->
+        <article class="doc-card" data-title="sow statement of work technical breakdown architecture">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">⚙️</span>
+              <div class="doc-card-title">Statement of Work (SOW)</div>
+            </div>
+            <div class="doc-card-urdu">Detailed breakdown kya kaam hoga exactly</div>
+            <p class="doc-card-desc">Granular technical SOW detailing n8n workflows, OpenAI prompts, CRM field mappings, API webhooks, and acceptance criteria.</p>
+          </div>
+          <div class="card-actions">
+            <a href="03_Statement_of_Work_SOW/Statement_of_Work_SOW.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="03_Statement_of_Work_SOW/Statement_of_Work_SOW.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+        <!-- Doc 4 -->
+        <article class="doc-card" data-title="nda non disclosure confidentiality data privacy">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">🔒</span>
+              <div class="doc-card-title">Non-Disclosure Agreement (NDA)</div>
+            </div>
+            <div class="doc-card-urdu">Client ka data aur API keys secret rakhne ka agreement</div>
+            <p class="doc-card-desc">Mutual NDA safeguarding proprietary workflows, API tokens, client databases, and confirming AI data privacy guarantees.</p>
+          </div>
+          <div class="card-actions">
+            <a href="04_NDA_Non_Disclosure_Agreement/Non_Disclosure_Agreement_NDA.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="04_NDA_Non_Disclosure_Agreement/Non_Disclosure_Agreement_NDA.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Category 2: Financial & Billing -->
+    <section class="category-section">
+      <div class="category-header">
+        <span class="cat-badge finance">Section 2</span>
+        <h2 class="cat-title">Billing, Invoices &amp; Portfolio Proof</h2>
+        <span class="cat-urdu">(Paisa, Payments aur Client Proof)</span>
+      </div>
+
+      <div class="docs-grid">
+
+        <!-- Doc 5 -->
+        <article class="doc-card" data-title="invoice billing payment wire stripe payoneer wise">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">💳</span>
+              <div class="doc-card-title">Professional Invoice</div>
+            </div>
+            <div class="doc-card-urdu">Kaam ke baad ya deposit lene ke liye (Net-7)</div>
+            <p class="doc-card-desc">Clean, branded invoice with itemized milestones, Net-7 terms, SWIFT Wire, Payoneer, Wise, Stripe, and Crypto rails.</p>
+          </div>
+          <div class="card-actions">
+            <a href="05_Invoice/Invoice_Template.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="05_Invoice/Invoice_Template.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+        <!-- Doc 6 -->
+        <article class="doc-card" data-title="quote estimate pricing options estimate">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">📊</span>
+              <div class="doc-card-title">Project Quote / Estimate</div>
+            </div>
+            <div class="doc-card-urdu">Pehle price aur scope options batane ke liye</div>
+            <p class="doc-card-desc">Formal quotation document with modular scope breakdown (Core build vs. Voice Agent add-ons) valid for 14 days.</p>
+          </div>
+          <div class="card-actions">
+            <a href="06_Quote_Estimate/Quote_Estimate_Template.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="06_Quote_Estimate/Quote_Estimate_Template.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+        <!-- Doc 7 -->
+        <article class="doc-card" data-title="receipt payment confirmation cleared paid">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">🧾</span>
+              <div class="doc-card-title">Payment Receipt</div>
+            </div>
+            <div class="doc-card-urdu">Payment milne ke baad confirmation receipt</div>
+            <p class="doc-card-desc">Official receipt with Transaction ID, 'PAID' stamp badge, and balance cleared acknowledgment for client records.</p>
+          </div>
+          <div class="card-actions">
+            <a href="07_Payment_Receipt/Payment_Receipt_Template.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="07_Payment_Receipt/Payment_Receipt_Template.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+        <!-- Doc 8 -->
+        <article class="doc-card" data-title="case study portfolio client results proof story">
+          <div>
+            <div class="card-icon-title">
+              <span class="doc-icon">🏆</span>
+              <div class="doc-card-title">Case Study / Client Proof</div>
+            </div>
+            <div class="doc-card-urdu">Portfolio aur marketing ke liye high-converting results</div>
+            <p class="doc-card-desc">Standardized case study framework: Client challenge, custom AI solution, 400% ROI metrics, and client testimonial.</p>
+          </div>
+          <div class="card-actions">
+            <a href="08_Case_Study_Portfolio/Case_Study_Template.html" class="btn-edit-html">✏️ Open &amp; Edit Live</a>
+            <a href="08_Case_Study_Portfolio/Case_Study_Template.md" class="btn-view-md">Markdown</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="portal-footer">
+      <p>&copy; 2025 Aivora Automations. All rights reserved. | <a href="https://aivoraai.online/" target="_blank">aivoraai.online</a> | <a href="mailto:info@aivoraautomations.com">info@aivoraautomations.com</a></p>
+    </footer>
+
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('docSearch');
+    const cards = document.querySelectorAll('.doc-card');
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const text = (card.getAttribute('data-title') + ' ' + card.innerText).toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

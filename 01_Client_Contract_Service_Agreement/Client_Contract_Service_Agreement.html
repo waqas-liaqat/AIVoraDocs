@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Services Agreement | Aivora Automations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --accent: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --badge-bg: #eff6ff;
+      --badge-text: #1d4ed8;
+      --edit-highlight: #fef08a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.65;
+      font-size: 14.5px;
+      padding: 30px 20px 60px 20px;
+    }
+
+    /* Live Editing Top Toolbar */
+    .top-actions {
+      max-width: 920px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #0f172a;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { background: #334155; color: #ffffff; }
+
+    .edit-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e3a8a;
+      color: #93c5fd;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-tool {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-reset {
+      background: #334155;
+      color: #e2e8f0;
+    }
+    .btn-reset:hover { background: #475569; }
+
+    .btn-save {
+      background: #0284c7;
+      color: white;
+    }
+    .btn-save:hover { background: #0369a1; }
+
+    .btn-print {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      box-shadow: 0 2px 8px rgba(67, 97, 238, 0.35);
+    }
+    .btn-print:hover { transform: translateY(-1px); }
+
+    /* Edit Banner */
+    .edit-banner {
+      max-width: 920px;
+      margin: 0 auto 20px auto;
+      background: #fefce8;
+      border: 1px solid #fef08a;
+      color: #854d0e;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Document Sheet */
+    .doc-container {
+      max-width: 920px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+      padding: 60px;
+    }
+
+    /* Editable Fields Styling */
+    [contenteditable="true"] {
+      outline: none;
+      transition: all 0.15s ease-in-out;
+      border-radius: 3px;
+    }
+
+    [contenteditable="true"]:hover {
+      background: rgba(67, 97, 238, 0.06);
+      box-shadow: 0 0 0 1px rgba(67, 97, 238, 0.25);
+    }
+
+    [contenteditable="true"]:focus {
+      background: #ffffff;
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .placeholder-tag {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      border-bottom: 1.5px dashed #d97706;
+    }
+
+    /* Header */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 30px;
+      margin-bottom: 36px;
+      gap: 20px;
+    }
+
+    .brand-area img { max-height: 48px; width: auto; object-fit: contain; margin-bottom: 8px; }
+    .brand-area .brand-sub { font-size: 13px; color: var(--text-muted); }
+    .brand-area .brand-sub a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+    .doc-meta { text-align: right; }
+    .doc-type-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    .doc-title { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .doc-ref { font-size: 13px; color: var(--text-muted); font-family: monospace; }
+
+    /* Parties Card */
+    .parties-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 36px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .party-box h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--primary); margin-bottom: 10px; font-weight: 700; }
+    .party-name { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+    .party-details { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Section Styles */
+    .section-block { margin-bottom: 32px; }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      border-left: 4px solid var(--primary);
+      padding-left: 12px;
+      margin-bottom: 14px;
+    }
+
+    p { margin-bottom: 12px; color: #334155; }
+    ul, ol { margin-left: 20px; margin-bottom: 16px; color: #334155; }
+    li { margin-bottom: 6px; }
+
+    .callout {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 13.5px;
+      color: #1e3a8a;
+    }
+
+    /* Table */
+    .custom-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+    .custom-table th { background: #f1f5f9; text-align: left; padding: 10px 14px; font-weight: 600; color: var(--text-main); border: 1px solid var(--border-color); }
+    .custom-table td { padding: 10px 14px; border: 1px solid var(--border-color); color: #334155; }
+
+    /* Signature Area */
+    .signature-section { margin-top: 48px; padding-top: 32px; border-top: 2px dashed var(--border-color); }
+    .signature-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 24px; text-align: center; color: var(--text-main); }
+    .signatures-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+    .sign-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 24px; background: #ffffff; }
+    .sign-card-header { font-weight: 700; font-size: 14px; color: var(--primary); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
+    .sign-line { height: 48px; border-bottom: 1.5px solid #94a3b8; margin-bottom: 16px; display: flex; align-items: flex-end; padding-bottom: 4px; color: #94a3b8; font-style: italic; font-size: 13px; }
+    .sign-meta-row { margin-bottom: 10px; display: flex; font-size: 13px; }
+    .sign-meta-label { width: 80px; color: var(--text-muted); font-weight: 500; }
+    .sign-meta-val { color: var(--text-main); font-weight: 600; flex: 1; }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: none;
+      z-index: 1000;
+    }
+
+    /* Print Styles */
+    @media print {
+      body { background: white; padding: 0; font-size: 11.5pt; }
+      .top-actions, .edit-banner, .toast { display: none !important; }
+      .doc-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+      .placeholder-tag { background: none !important; border: none !important; padding: 0 !important; color: inherit !important; font-weight: inherit !important; }
+      [contenteditable="true"]:hover, [contenteditable="true"]:focus { background: none !important; box-shadow: none !important; }
+      .parties-grid, .sign-card, .callout, .signature-section { break-inside: avoid; }
+      a { text-decoration: none; color: inherit; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <div class="top-actions">
+    <div class="toolbar-left">
+      <a href="../index.html" class="btn-back">
+        &larr; Document Portal
+      </a>
+      <span class="edit-status-pill">✏️ Live Edit Enabled</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn-tool btn-reset" onclick="resetDocument()">🔄 Reset</button>
+      <button class="btn-tool btn-save" onclick="saveDocument()">💾 Save Draft</button>
+      <button class="btn-tool btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <!-- Instruction Banner -->
+  <div class="edit-banner">
+    <span>💡 <strong>Interactive Document:</strong> Click directly on any text, dates, prices, or highlighted fields below to edit for your client. Click <strong>"Print / Save as PDF"</strong> when ready.</span>
+  </div>
+
+  <!-- Editable Document Sheet -->
+  <div class="doc-container" id="editableDoc" contenteditable="true">
+
+    <!-- Header -->
+    <div class="doc-header">
+      <div class="brand-area" contenteditable="false">
+        <img src="../logo.png" alt="Aivora Automations Logo" onerror="this.src='https://aivoraai.online/assets/logo.png'">
+        <div class="brand-sub">
+          <strong>Aivora Automations</strong> &bull; <a href="https://aivoraai.online/" target="_blank">aivoraai.online</a><br>
+          info@aivoraautomations.com
+        </div>
+      </div>
+      <div class="doc-meta">
+        <span class="doc-type-badge" contenteditable="false">Legal Contract</span>
+        <h1 class="doc-title">Master Services Agreement</h1>
+        <div class="doc-ref">Ref: <span class="placeholder-tag">AIV-MSA-2025-001</span> | Date: <span class="placeholder-tag">[DD/MM/YYYY]</span></div>
+      </div>
+    </div>
+
+    <!-- Parties -->
+    <div class="parties-grid">
+      <div class="party-box">
+        <h4>Service Provider</h4>
+        <div class="party-name">Aivora Automations</div>
+        <div class="party-details">
+          <strong>Website:</strong> https://aivoraai.online/<br>
+          <strong>Email:</strong> info@aivoraautomations.com<br>
+          <strong>Specialization:</strong> AI Agents, Voice AI &amp; Workflow Automations
+        </div>
+      </div>
+
+      <div class="party-box">
+        <h4>Client Details</h4>
+        <div class="party-name"><span class="placeholder-tag">[Client Company / Client Name]</span></div>
+        <div class="party-details">
+          <strong>Contact:</strong> <span class="placeholder-tag">[Contact Name, Title]</span><br>
+          <strong>Email:</strong> <span class="placeholder-tag">[client@company.com]</span><br>
+          <strong>Billing Address:</strong> <span class="placeholder-tag">[City, State, Country]</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-block">
+      <h2 class="section-title">1. Purpose &amp; Scope of Agreement</h2>
+      <p>This Master Services Agreement ("<strong>Agreement</strong>") governs the terms under which <strong>Aivora Automations</strong> ("Provider") provides Artificial Intelligence (AI) engineering, workflow automation, autonomous voice/chat agents, and integration services to the <strong>Client</strong> as outlined in mutually executed Statements of Work ("SOW").</p>
+      <p>Individual project specifications, specific timelines, detailed deliverables, and payment schedules shall be defined in corresponding SOWs attached hereto.</p>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-block">
+      <h2 class="section-title">2. Core Services &amp; Capabilities</h2>
+      <p>Provider designs, builds, and deploys production-grade AI solutions including but not limited to:</p>
+      <ul>
+        <li><strong>AI Agents Development:</strong> Autonomous multi-step agents leveraging frontier LLMs (OpenAI GPT-4o, Claude 3.5 Sonnet) for complex decision-making.</li>
+        <li><strong>AI Chatbots &amp; Virtual Assistants:</strong> Conversational bots for WhatsApp, web interfaces, and CRMs featuring 24/7 lead qualification and calendar bookings.</li>
+        <li><strong>AI Voice Agents:</strong> VAPI-powered human-like inbound/outbound voice systems for appointment scheduling and customer support.</li>
+        <li><strong>Workflow Automation &amp; RPA:</strong> Custom multi-platform pipelines utilizing n8n, Make.com, Zapier, Webhooks, and custom APIs.</li>
+        <li><strong>CRM Integration:</strong> Deep automation across HubSpot, GoHighLevel (GHL), Salesforce, Zoho CRM, Airtable, and Google Workspace.</li>
+      </ul>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-block">
+      <h2 class="section-title">3. Project Timelines &amp; Delivery Commitments</h2>
+      <p>Aivora Automations operates with a rapid deployment methodology. Standard project delivery timelines are typically <strong>5 to 14 business days</strong> upon receipt of the upfront milestone deposit and required client system access credentials.</p>
+      <div class="callout">
+        <strong>Client Dependency Notice:</strong> Delivery timelines are reliant upon timely client input. Client agrees to provide required API keys, feedback, and access within <strong>two (2) business days</strong> of formal request.
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-block">
+      <h2 class="section-title">4. Payment Terms, Global Invoicing &amp; Taxes</h2>
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Milestone</th>
+            <th>Trigger / Timing</th>
+            <th>Standard Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Milestone 1: Deposit</strong></td>
+            <td>Upon contract execution &amp; prior to project kickoff</td>
+            <td>50% of total project fee</td>
+          </tr>
+          <tr>
+            <td><strong>Milestone 2: Final Handover</strong></td>
+            <td>Upon successful UAT, testing &amp; final system deployment</td>
+            <td>50% of total project fee</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Invoices are payable within <strong>seven (7) calendar days</strong> of issuance via International Bank Wire (SWIFT/IBAN), Stripe Checkout, Wise Business, Payoneer, or Elevate Pay. Billed in USD (or mutually agreed foreign currency).</p>
+      <div class="callout">
+        <strong>Cross-Border IT Export Tax Notice:</strong> Invoices represent cross-border software export services and are billed with <strong>0% local sales tax (Reverse Charge / Export Zero-Rated)</strong>. Client is responsible for any domestic bank transfer fees in their own jurisdiction.
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section-block">
+      <h2 class="section-title">5. Acceptance Testing &amp; 30-Day Bug-Fix Warranty</h2>
+      <p>Client shall have <strong>five (5) business days</strong> following deployment to conduct User Acceptance Testing (UAT). Aivora Automations provides an inclusive <strong>30-Day Post-Launch Bug-Fix Warranty</strong> to guarantee all workflows function in accordance with agreed technical specifications.</p>
+      <p><em>Note: The warranty covers bugs in the original build and does not cover third-party API downtime or unauthorized workflow alterations made by external parties.</em></p>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section-block">
+      <h2 class="section-title">6. Intellectual Property &amp; Ownership</h2>
+      <p>Upon receipt of 100% full payment, the Client receives full ownership and intellectual property rights to the specific custom workflows, scripts, prompts, and documentation created under the SOW. Provider retains ownership of its proprietary pre-existing templates and core reusable developer frameworks.</p>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="section-block">
+      <h2 class="section-title">7. Confidentiality, Data Privacy &amp; AI Disclaimer</h2>
+      <p>Both parties agree to treat all business strategies, client records, and API credentials as strictly Confidential Information under international data protection best practices.</p>
+      <p><strong>AI Training Safeguard:</strong> Client customer data and conversational records <strong>shall never be used to train public LLM models</strong>.</p>
+      <p><strong>AI Probabilistic Output Disclaimer:</strong> Client acknowledges that modern AI models generate probabilistic responses. While Provider engineers rigorous guardrails, system prompts, and validation layers, Provider does not guarantee 100% deterministic outputs from external foundational LLM providers.</p>
+    </div>
+
+    <!-- Section 8 -->
+    <div class="section-block">
+      <h2 class="section-title">8. Governing Law &amp; International Dispute Resolution</h2>
+      <p>In the event of any dispute, the Parties agree to first seek amicable resolution via senior negotiation within 14 days. If unresolved, disputes shall be settled through international commercial arbitration in English under standard ICC/SIAC rules or under the laws of a mutually agreed neutral jurisdiction.</p>
+    </div>
+
+    <!-- Signatures -->
+    <div class="signature-section">
+      <div class="signature-title">IN WITNESS WHEREOF, the authorized representatives have executed this Agreement:</div>
+      
+      <div class="signatures-grid">
+        <div class="sign-card">
+          <div class="sign-card-header">FOR AIVORA AUTOMATIONS</div>
+          <div class="sign-line">Authorized Digital Signature</div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Name:</div>
+            <div class="sign-meta-val">Aivora Automations Team</div>
+          </div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Title:</div>
+            <div class="sign-meta-val">Founder / Managing Director</div>
+          </div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Date:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[DD/MM/YYYY]</span></div>
+          </div>
+        </div>
+
+        <div class="sign-card">
+          <div class="sign-card-header">FOR CLIENT</div>
+          <div class="sign-line">Authorized Signatory</div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Name:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[Client Full Name]</span></div>
+          </div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Title:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[Client Title / CEO]</span></div>
+          </div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Date:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[DD/MM/YYYY]</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toastMsg">✓ Draft saved in browser!</div>
+
+  <script>
+    const DOC_KEY = 'aivora_doc_msa';
+    const docEl = document.getElementById('editableDoc');
+    const toast = document.getElementById('toastMsg');
+
+    // Load saved content if available
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem(DOC_KEY);
+      if (saved) {
+        docEl.innerHTML = saved;
+      }
+    });
+
+    function saveDocument() {
+      localStorage.setItem(DOC_KEY, docEl.innerHTML);
+      showToast('✓ Changes saved locally in your browser!');
+    }
+
+    function resetDocument() {
+      if (confirm('Are you sure you want to reset all edits back to the default template?')) {
+        localStorage.removeItem(DOC_KEY);
+        location.reload();
+      }
+    }
+
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  </script>
+
+</body>
+</html>

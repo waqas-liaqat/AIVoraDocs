@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mutual Non-Disclosure Agreement (NDA) | Aivora Automations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --accent: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --badge-bg: #fee2e2;
+      --badge-text: #991b1b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.65;
+      font-size: 14.5px;
+      padding: 30px 20px 60px 20px;
+    }
+
+    .top-actions {
+      max-width: 900px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #0f172a;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .toolbar-left { display: flex; align-items: center; gap: 12px; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: #1e293b; border: 1px solid #334155;
+      border-radius: 7px; font-size: 13px; font-weight: 500; color: #cbd5e1;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-back:hover { background: #334155; color: #ffffff; }
+
+    .edit-status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1e3a8a; color: #93c5fd; padding: 5px 12px;
+      border-radius: 20px; font-size: 12px; font-weight: 600;
+    }
+
+    .toolbar-right { display: flex; align-items: center; gap: 10px; }
+    .btn-tool {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s;
+    }
+    .btn-reset { background: #334155; color: #e2e8f0; }
+    .btn-reset:hover { background: #475569; }
+    .btn-save { background: #0284c7; color: white; }
+    .btn-save:hover { background: #0369a1; }
+    .btn-print {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white; box-shadow: 0 2px 8px rgba(67, 97, 238, 0.35);
+    }
+    .btn-print:hover { transform: translateY(-1px); }
+
+    .edit-banner {
+      max-width: 900px; margin: 0 auto 20px auto;
+      background: #fefce8; border: 1px solid #fef08a; color: #854d0e;
+      padding: 10px 16px; border-radius: 8px; font-size: 13px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .doc-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+      padding: 60px;
+    }
+
+    [contenteditable="true"] { outline: none; transition: all 0.15s ease-in-out; border-radius: 3px; }
+    [contenteditable="true"]:hover { background: rgba(67, 97, 238, 0.05); box-shadow: 0 0 0 1px rgba(67, 97, 238, 0.25); }
+    [contenteditable="true"]:focus { background: #ffffff; box-shadow: 0 0 0 2px var(--primary); }
+
+    .placeholder-tag {
+      background: #fef3c7; color: #92400e; padding: 1px 6px;
+      border-radius: 4px; font-weight: 600; border-bottom: 1.5px dashed #d97706;
+    }
+
+    .doc-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 2px solid var(--border-color); padding-bottom: 30px; margin-bottom: 36px; gap: 20px;
+    }
+
+    .brand-area img { max-height: 48px; width: auto; margin-bottom: 8px; }
+    .brand-area .brand-sub { font-size: 13px; color: var(--text-muted); }
+    .brand-area .brand-sub a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+    .doc-meta { text-align: right; }
+    .doc-type-badge {
+      display: inline-block; padding: 6px 14px; background: var(--badge-bg);
+      color: var(--badge-text); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; border-radius: 20px; margin-bottom: 8px;
+    }
+
+    .doc-title { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .doc-ref { font-size: 13px; color: var(--text-muted); font-family: monospace; }
+
+    .parties-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin-bottom: 36px; background: #f8fafc; border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 24px;
+    }
+
+    .party-box h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--primary); margin-bottom: 10px; font-weight: 700; }
+    .party-name { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+    .party-details { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    .section-block { margin-bottom: 30px; }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700;
+      color: var(--text-main); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 14px;
+    }
+
+    p { margin-bottom: 12px; color: #334155; }
+    ul { margin-left: 20px; margin-bottom: 14px; color: #334155; }
+    li { margin-bottom: 6px; }
+
+    .highlight-card {
+      background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+      padding: 16px; margin: 16px 0; font-size: 13.5px; color: #166534;
+    }
+
+    .signature-section { margin-top: 48px; padding-top: 32px; border-top: 2px dashed var(--border-color); }
+    .signatures-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+    .sign-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 24px; background: #ffffff; }
+    .sign-card-header { font-weight: 700; font-size: 14px; color: var(--primary); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
+    .sign-line { height: 48px; border-bottom: 1.5px solid #94a3b8; margin-bottom: 16px; display: flex; align-items: flex-end; padding-bottom: 4px; color: #94a3b8; font-style: italic; font-size: 13px; }
+    .sign-meta-row { margin-bottom: 10px; display: flex; font-size: 13px; }
+    .sign-meta-label { width: 80px; color: var(--text-muted); font-weight: 500; }
+    .sign-meta-val { color: var(--text-main); font-weight: 600; flex: 1; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #10b981; color: white; padding: 12px 20px;
+      border-radius: 8px; font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; z-index: 1000;
+    }
+
+    @media print {
+      body { background: white; padding: 0; font-size: 11pt; }
+      .top-actions, .edit-banner, .toast { display: none !important; }
+      .doc-container { border: none; box-shadow: none; padding: 0; width: 100%; }
+      .placeholder-tag { background: none !important; border: none !important; padding: 0 !important; color: inherit !important; font-weight: inherit !important; }
+      .parties-grid, .sign-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <div class="top-actions">
+    <div class="toolbar-left">
+      <a href="../index.html" class="btn-back">&larr; Document Portal</a>
+      <span class="edit-status-pill">✏️ Live Edit Enabled</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn-tool btn-reset" onclick="resetDocument()">🔄 Reset</button>
+      <button class="btn-tool btn-save" onclick="saveDocument()">💾 Save Draft</button>
+      <button class="btn-tool btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="edit-banner">
+    <span>💡 <strong>Interactive NDA:</strong> Click directly to edit party details, addresses, confidentiality duration, or terms.</span>
+  </div>
+
+  <div class="doc-container" id="editableDoc" contenteditable="true">
+
+    <!-- Header -->
+    <div class="doc-header">
+      <div class="brand-area" contenteditable="false">
+        <img src="../logo.png" alt="Aivora Automations Logo" onerror="this.src='https://aivoraai.online/assets/logo.png'">
+        <div class="brand-sub">
+          <strong>Aivora Automations</strong> &bull; <a href="https://aivoraai.online/" target="_blank">aivoraai.online</a><br>
+          info@aivoraautomations.com
+        </div>
+      </div>
+      <div class="doc-meta">
+        <span class="doc-type-badge" contenteditable="false">Confidentiality Agreement</span>
+        <h1 class="doc-title">Mutual NDA</h1>
+        <div class="doc-ref">Ref: <span class="placeholder-tag">AIV-NDA-2025-001</span> | Date: <span class="placeholder-tag">[DD/MM/YYYY]</span></div>
+      </div>
+    </div>
+
+    <!-- Parties Grid -->
+    <div class="parties-grid">
+      <div class="party-box">
+        <h4>Disclosing / Receiving Party 1</h4>
+        <div class="party-name">Aivora Automations</div>
+        <div class="party-details">
+          <strong>Website:</strong> https://aivoraai.online/<br>
+          <strong>Email:</strong> info@aivoraautomations.com<br>
+          <strong>Representative:</strong> Managing Director / Founder
+        </div>
+      </div>
+
+      <div class="party-box">
+        <h4>Disclosing / Receiving Party 2</h4>
+        <div class="party-name"><span class="placeholder-tag">[Client Company / Client Name]</span></div>
+        <div class="party-details">
+          <strong>Contact:</strong> <span class="placeholder-tag">[Signatory Name, Title]</span><br>
+          <strong>Email:</strong> <span class="placeholder-tag">[client@company.com]</span><br>
+          <strong>Address:</strong> <span class="placeholder-tag">[Street Address, City, Country]</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-block">
+      <h2 class="section-title">1. Purpose of Disclosure</h2>
+      <p>The Parties wish to explore and engage in commercial collaboration involving Artificial Intelligence development, workflow automation, autonomous voice/chat agents, and system integration. During this engagement, each Party may disclose sensitive and proprietary technical and business data.</p>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-block">
+      <h2 class="section-title">2. Scope of Confidential Information</h2>
+      <p>Confidential Information includes, without limitation:</p>
+      <ul>
+        <li><strong>Client Assets:</strong> Customer lists, sales databases, CRM data, proprietary operational procedures, and financial metrics.</li>
+        <li><strong>Agency Assets:</strong> Proprietary AI prompt architectures, guardrail logic, n8n/Make automation workflow blueprints, and custom scripts.</li>
+        <li><strong>Security Credentials:</strong> API keys (OpenAI, VAPI, Make, Twilio, Stripe), webhook signing secrets, database credentials, and OAuth tokens.</li>
+      </ul>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-block">
+      <h2 class="section-title">3. Protection Standards &amp; AI Privacy Guarantee</h2>
+      <p>The Receiving Party agrees to exercise reasonable care (at least equal to that used for its own confidential assets) to prevent unauthorized disclosure.</p>
+      
+      <div class="highlight-card">
+        <strong>🔒 AI Training &amp; Privacy Safeguard:</strong> Aivora Automations explicitly covenants that Client customer data and conversational records <strong>shall never be used to train public AI models</strong> or distributed to unauthorized third parties.
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-block">
+      <h2 class="section-title">4. Term &amp; Data Decommissioning</h2>
+      <p>This Agreement remains in force for a period of <strong>two (2) years</strong> from the Effective Date. Upon project termination or written request, all staging API keys, temporary credentials, and client data copies shall be destroyed or returned within <strong>five (5) business days</strong>.</p>
+    </div>
+
+    <!-- Signatures -->
+    <div class="signature-section">
+      <div class="signatures-grid">
+        <div class="sign-card">
+          <div class="sign-card-header">FOR AIVORA AUTOMATIONS</div>
+          <div class="sign-line">Authorized Digital Signature</div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Name:</div>
+            <div class="sign-meta-val">Aivora Automations Representative</div>
+          </div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Date:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[DD/MM/YYYY]</span></div>
+          </div>
+        </div>
+
+        <div class="sign-card">
+          <div class="sign-card-header">FOR CLIENT</div>
+          <div class="sign-line">Authorized Signatory</div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Name:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[Client Full Name]</span></div>
+          </div>
+          <div class="sign-meta-row">
+            <div class="sign-meta-label">Date:</div>
+            <div class="sign-meta-val"><span class="placeholder-tag">[DD/MM/YYYY]</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toastMsg">✓ Draft saved in browser!</div>
+
+  <script>
+    const DOC_KEY = 'aivora_doc_nda';
+    const docEl = document.getElementById('editableDoc');
+    const toast = document.getElementById('toastMsg');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem(DOC_KEY);
+      if (saved) { docEl.innerHTML = saved; }
+    });
+
+    function saveDocument() {
+      localStorage.setItem(DOC_KEY, docEl.innerHTML);
+      showToast('✓ NDA saved locally in your browser!');
+    }
+
+    function resetDocument() {
+      if (confirm('Are you sure you want to reset all edits back to the default template?')) {
+        localStorage.removeItem(DOC_KEY);
+        location.reload();
+      }
+    }
+
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  </script>
+
+</body>
+</html>

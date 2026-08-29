@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Estimate & Quote | Aivora Automations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --accent: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --badge-bg: #ecfdf5;
+      --badge-text: #047857;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      font-size: 14px;
+      padding: 30px 20px 60px 20px;
+    }
+
+    .top-actions {
+      max-width: 880px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #0f172a;
+      padding: 12px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .toolbar-left { display: flex; align-items: center; gap: 12px; }
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; background: #1e293b; border: 1px solid #334155;
+      border-radius: 7px; font-size: 13px; font-weight: 500; color: #cbd5e1;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-back:hover { background: #334155; color: #ffffff; }
+
+    .edit-status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1e3a8a; color: #93c5fd; padding: 5px 12px;
+      border-radius: 20px; font-size: 12px; font-weight: 600;
+    }
+
+    .toolbar-right { display: flex; align-items: center; gap: 10px; }
+    .btn-tool {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s;
+    }
+    .btn-reset { background: #334155; color: #e2e8f0; }
+    .btn-reset:hover { background: #475569; }
+    .btn-save { background: #0284c7; color: white; }
+    .btn-save:hover { background: #0369a1; }
+    .btn-print {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white; box-shadow: 0 2px 8px rgba(67, 97, 238, 0.35);
+    }
+    .btn-print:hover { transform: translateY(-1px); }
+
+    .edit-banner {
+      max-width: 880px; margin: 0 auto 20px auto;
+      background: #fefce8; border: 1px solid #fef08a; color: #854d0e;
+      padding: 10px 16px; border-radius: 8px; font-size: 13px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .doc-container {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+      padding: 50px;
+    }
+
+    [contenteditable="true"] { outline: none; transition: all 0.15s ease-in-out; border-radius: 3px; }
+    [contenteditable="true"]:hover { background: rgba(67, 97, 238, 0.05); box-shadow: 0 0 0 1px rgba(67, 97, 238, 0.25); }
+    [contenteditable="true"]:focus { background: #ffffff; box-shadow: 0 0 0 2px var(--primary); }
+
+    .placeholder-tag {
+      background: #fef3c7; color: #92400e; padding: 1px 6px;
+      border-radius: 4px; font-weight: 600; border-bottom: 1.5px dashed #d97706;
+    }
+
+    .quote-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 2px solid var(--border-color); padding-bottom: 28px; margin-bottom: 32px; gap: 20px;
+    }
+
+    .brand-area img { max-height: 46px; width: auto; margin-bottom: 8px; }
+    .brand-area .brand-sub { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+    .brand-area .brand-sub a { color: var(--primary); text-decoration: none; font-weight: 500; }
+
+    .quote-meta { text-align: right; }
+    .status-badge {
+      display: inline-block; padding: 5px 14px; background: var(--badge-bg);
+      color: var(--badge-text); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; border-radius: 20px; margin-bottom: 8px;
+    }
+
+    .quote-title { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 800; color: var(--text-main); }
+    .quote-num { font-size: 13.5px; font-weight: 600; color: var(--primary); font-family: monospace; }
+
+    .details-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;
+      margin-bottom: 32px; background: #f8fafc; border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 20px 24px;
+    }
+
+    .box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--primary); margin-bottom: 6px; }
+    .client-name { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .client-sub { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .meta-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+    .meta-row span { color: var(--text-muted); }
+    .meta-row strong { color: var(--text-main); }
+
+    .items-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    .items-table th { background: #f1f5f9; text-align: left; padding: 12px 14px; font-size: 12px; text-transform: uppercase; font-weight: 700; color: var(--text-main); border-bottom: 2px solid var(--border-color); }
+    .items-table td { padding: 14px; border-bottom: 1px solid var(--border-color); font-size: 13.5px; vertical-align: top; }
+    .items-table td.time { width: 120px; color: var(--text-muted); font-size: 12.5px; }
+    .items-table td.price { width: 130px; text-align: right; font-weight: 700; color: var(--primary); }
+    .item-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+
+    .packages-container { margin: 24px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .pkg-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; background: #fafafa; }
+    .pkg-card.recommended { border: 2px solid var(--primary); background: #f8faff; }
+    .pkg-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-main); margin-bottom: 6px; }
+    .pkg-price { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+    .pkg-scope { font-size: 12px; color: var(--text-muted); }
+
+    .sign-box { margin-top: 32px; padding: 22px; border: 1px dashed var(--border-color); border-radius: 10px; background: #ffffff; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #10b981; color: white; padding: 12px 20px;
+      border-radius: 8px; font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; z-index: 1000;
+    }
+
+    @media print {
+      body { background: white; padding: 0; font-size: 11pt; }
+      .top-actions, .edit-banner, .toast { display: none !important; }
+      .doc-container { border: none; box-shadow: none; padding: 0; width: 100%; }
+      .placeholder-tag { background: none !important; border: none !important; padding: 0 !important; color: inherit !important; font-weight: inherit !important; }
+      .packages-container, .sign-box { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Toolbar -->
+  <div class="top-actions">
+    <div class="toolbar-left">
+      <a href="../index.html" class="btn-back">&larr; Document Portal</a>
+      <span class="edit-status-pill">✏️ Live Edit Enabled</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn-tool btn-reset" onclick="resetDocument()">🔄 Reset</button>
+      <button class="btn-tool btn-save" onclick="saveDocument()">💾 Save Draft</button>
+      <button class="btn-tool btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="edit-banner">
+    <span>💡 <strong>Interactive Quote:</strong> Edit pricing options, estimated timelines, or add custom module line items before generating the quote.</span>
+  </div>
+
+  <div class="doc-container" id="editableDoc" contenteditable="true">
+
+    <!-- Header -->
+    <div class="quote-header">
+      <div class="brand-area" contenteditable="false">
+        <img src="../logo.png" alt="Aivora Automations Logo" onerror="this.src='https://aivoraai.online/assets/logo.png'">
+        <div class="brand-sub">
+          <strong>Aivora Automations</strong><br>
+          Website: <a href="https://aivoraai.online/" target="_blank">aivoraai.online</a><br>
+          Email: info@aivoraautomations.com
+        </div>
+      </div>
+      <div class="quote-meta">
+        <span class="status-badge">Valid for 14 Days</span>
+        <h1 class="quote-title">PROJECT QUOTE</h1>
+        <div class="quote-num">Ref: #AIV-EST-2025-001</div>
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+      <div>
+        <div class="box-label">Quote Prepared For:</div>
+        <div class="client-name"><span class="placeholder-tag">[Client Company Name]</span></div>
+        <div class="client-sub">
+          Attn: <span class="placeholder-tag">[Client Contact Name, Title]</span><br>
+          Email: <span class="placeholder-tag">[client@company.com]</span><br>
+          Industry: <span class="placeholder-tag">[E-Commerce / Healthcare / B2B]</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="box-label">Estimation Summary:</div>
+        <div class="meta-row">
+          <span>Date Issued:</span>
+          <strong><span class="placeholder-tag">[DD/MM/YYYY]</span></strong>
+        </div>
+        <div class="meta-row">
+          <span>Valid Through:</span>
+          <strong><span class="placeholder-tag">[DD/MM/YYYY]</span></strong>
+        </div>
+        <div class="meta-row">
+          <span>Estimated Build Time:</span>
+          <strong>5 to 14 Business Days</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Module / Technical Scope</th>
+          <th>Timeline</th>
+          <th style="text-align: right;">Estimated Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>1. Core AI Conversational Chatbot (WhatsApp / Web)</strong>
+            <div class="item-desc">OpenAI GPT-4o integration, dynamic 7-stage lead qualification script, company knowledge base ingestion &amp; anti-hallucination guardrails.</div>
+          </td>
+          <td class="time">3–4 Days</td>
+          <td class="price">$2,000.00</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>2. CRM &amp; Calendar Automation Engine (n8n / Make)</strong>
+            <div class="item-desc">Bi-directional CRM sync (HubSpot / GoHighLevel / Zoho), automated calendar slot booking, and real-time Slack/Email alerts.</div>
+          </td>
+          <td class="time">2–3 Days</td>
+          <td class="price">$1,500.00</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>3. Optional Add-On: AI Voice Agent (VAPI / ElevenLabs)</strong>
+            <div class="item-desc">Autonomous inbound/outbound phone calling system for live customer qualification, FAQ handling, and booking.</div>
+          </td>
+          <td class="time">3–4 Days</td>
+          <td class="price">$1,800.00</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>4. Quality Assurance, Video SOPs &amp; 30-Day Warranty</strong>
+            <div class="item-desc">50+ edge-case test runs, complete Loom video training walkthroughs, and 30 days complimentary bug-fix support.</div>
+          </td>
+          <td class="time">2 Days</td>
+          <td class="price">Included ($0)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Packages Options -->
+    <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-main); margin-bottom: 10px;">Select Implementation Package:</div>
+    <div class="packages-container">
+      <div class="pkg-card">
+        <div class="pkg-title">Option 1: Core Build</div>
+        <div class="pkg-price">$3,500 USD</div>
+        <div class="pkg-scope">Chatbot + CRM &amp; Calendar Booking + 30-Day Warranty (7–10 Days)</div>
+      </div>
+
+      <div class="pkg-card recommended">
+        <div class="pkg-title" style="color: var(--primary);">Option 2: Omni-Channel ★</div>
+        <div class="pkg-price">$5,300 USD</div>
+        <div class="pkg-scope">Core Build + VAPI AI Voice Calling Agent (10–14 Days)</div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-title">Option 3: Enterprise Suite</div>
+        <div class="pkg-price">$6,200+ USD</div>
+        <div class="pkg-scope">Full Omni-Channel + Custom RPA Scraper &amp; Priority SLA (14 Days)</div>
+      </div>
+    </div>
+
+    <!-- Sign Box -->
+    <div class="sign-box">
+      <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px;">Authorization &amp; Next Steps</div>
+      <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">To approve this quote, check your selected option and sign below:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 13px;">
+        <div><strong>Client Signatory:</strong> ____________________________</div>
+        <div><strong>Date:</strong> _____ / _____ / ________</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toastMsg">✓ Draft saved in browser!</div>
+
+  <script>
+    const DOC_KEY = 'aivora_doc_quote';
+    const docEl = document.getElementById('editableDoc');
+    const toast = document.getElementById('toastMsg');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem(DOC_KEY);
+      if (saved) { docEl.innerHTML = saved; }
+    });
+
+    function saveDocument() {
+      localStorage.setItem(DOC_KEY, docEl.innerHTML);
+      showToast('✓ Quote saved locally in your browser!');
+    }
+
+    function resetDocument() {
+      if (confirm('Are you sure you want to reset all edits back to the default template?')) {
+        localStorage.removeItem(DOC_KEY);
+        location.reload();
+      }
+    }
+
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  </script>
+
+</body>
+</html>
